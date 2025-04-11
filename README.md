@@ -1,1 +1,1 @@
-# peace_and_conflict
+# Peace and Conflict Resolution Management System

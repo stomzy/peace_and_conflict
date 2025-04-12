@@ -4,11 +4,13 @@ import com.example.pcr.exception.custom.CustomAppException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.multipart.MultipartException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,12 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(401, "Invalid username or password");
         log.warn("Authentication failed: {}", ex.getMessage());
         return ResponseEntity.status(401).body(apiError);
+    }
+
+    @ExceptionHandler(MultipartException.class)
+    public ResponseEntity<ApiError> handleFileSizeException(MultipartException ex) {
+        ApiError apiError = new ApiError(400, "File size is too large. Please upload a smaller file.");
+        return ResponseEntity.status(400).body(apiError);
     }
 
 }

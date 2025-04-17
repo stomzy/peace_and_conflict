@@ -1,6 +1,7 @@
 package com.example.pcr.exception;
 
 import com.example.pcr.exception.custom.CustomAppException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,5 +64,12 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(400, "File size is too large. Please upload a smaller file.");
         return ResponseEntity.status(400).body(apiError);
     }
+
+    @ExceptionHandler(SignatureException.class)
+    public ResponseEntity<ApiError> handleInvalidJwtSignature(SignatureException ex) {
+        ApiError apiError = new ApiError(HttpStatus.UNAUTHORIZED.value(), "Invalid JWT signature");
+        return ResponseEntity.status(400).body(apiError);
+    }
+
 
 }

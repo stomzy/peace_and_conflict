@@ -20,14 +20,18 @@ public class SecurityConfig {
     private JwtUtil jwtUtil;
     @Autowired private UserDetailsService userDetailsService;
 
+    @Autowired CustomCorsConfiguration customCorsConfiguration;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/uploads/logos/**").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
+                .cors(c -> c.configurationSource(customCorsConfiguration))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )

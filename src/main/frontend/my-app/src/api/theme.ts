@@ -1,10 +1,31 @@
 import axios from "axios";
 
-const API_URL = "/api/theme";
+const API_URL = "http://localhost:8080/api";
+
+const getAuthToken = () => {
+  return localStorage.getItem("token");
+};
+
+const apiClient = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+apiClient.interceptors.request.use((config) => {
+  const token = getAuthToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+});
 
 export const getTheme = async () => {
   try {
-    const response = await axios.get(API_URL);
+    const response = await apiClient.get("/theme");
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -20,7 +41,7 @@ export const saveTheme = async (theme: {
   logoUrl: string | null;
 }) => {
   try {
-    const response = await axios.post(API_URL, theme);
+    const response = await apiClient.post("/theme", theme);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -36,7 +57,7 @@ export const uploadLogo = async (file: File) => {
     const formData = new FormData();
     formData.append("logo", file);
 
-    const response = await axios.post(`${API_URL}/logo`, formData, {
+    const response = await apiClient.post("/theme/logo", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

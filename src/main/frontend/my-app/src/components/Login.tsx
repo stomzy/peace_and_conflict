@@ -14,7 +14,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const data = await login(username, password);
-      localStorage.setItem("token", data.token); // store JWT
+      localStorage.setItem("token", data.token);
       navigate("/dashboard");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed");
@@ -30,7 +30,6 @@ const Login: React.FC = () => {
         {logoUrl && (
           <div className="flex justify-center mb-4">
             <img src={logoUrl} alt="Logo" className="h-16" />
-            {/* <img src={logo} alt="Logo" className="h-16" /> */}
           </div>
         )}
         <h2 className="text-2xl font-bold text-center">Login</h2>
@@ -56,7 +55,7 @@ const Login: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
+          className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700 transition"
         >
           Login
         </button>

@@ -15,6 +15,13 @@ public class Theme {
     private String primaryColor;
     private String logoUrl;
 
+    public Theme() {}
+
+    public Theme(String primaryColor, String logoUrl) {
+        this.primaryColor = primaryColor;
+        this.logoUrl = logoUrl;
+    }
+
     public Long getId() {
         return id;
     }

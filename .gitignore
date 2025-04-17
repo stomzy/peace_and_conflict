@@ -36,6 +36,7 @@ build/
 
 # dependencies
 /node_modules/
+src/main/frontend/my-app/node_modules/
 /.pnp
 .pnp.js
 
